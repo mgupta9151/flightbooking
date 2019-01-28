@@ -1,0 +1,58 @@
+<div class="row">
+	<%= bootstrap_flash %>
+	<div class="col-lg-3">
+		<div class="well sidebar-nav">
+			
+		<form class="new_flight_ticket_booking" id="new_flight_ticket_booking" action="<%=flights_path%>">
+			<div class="row">
+				<input name="utf8" type="hidden" value="✓">
+				<div class="col-md-12 form-group">
+					<label>From</label>					
+					<select name="from_location" class="form-control" id="from_location">
+						<option value=""></option>
+						<% @flight_locations.each do |location| %>
+							<option value="<%=location.id%>"><%=location.name%>&nbsp; <%=location.code%></option>
+						<%end%>
+					</select>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 form-group">
+					<label>To</label>
+					<select name="to_location" class="form-control" id="to_location">
+						<option value=""></option>
+						<% @flight_locations.each do |location| %>
+							<option value="<%=location.id%>"><%=location.name%>&nbsp; <%=location.code%></option>
+						<%end%>
+					</select>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 form-group">
+					<label>Seat Type</label>
+					<select class="form-control" name="seat_type" id="seat_type">
+						<% @seat_types.each do |seat| %>
+							<option value="<%=seat.id%>"><%=seat.name%></option>
+						<%end%>						
+					</select>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12 form-group">
+					<label>Depart</label>
+					<input type="text" name="to_date" class="form-control" id="depart_date">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 form-group">
+					<button type="submit" name="Search" class="btn btn-primary"></button>
+				</div>
+			</div>	
+	</form>
+		</div>
+	</div>
+	<div class="col-lg-9">
+		
+	</div>	
+</div>

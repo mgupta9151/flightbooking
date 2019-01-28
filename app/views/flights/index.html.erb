@@ -1,0 +1,28 @@
+
+	
+
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Departure</th>
+      <th scope="col">Arrival</th>
+      <th scope="col">Duration</th>
+      <th scope="col">Price</th>
+    </tr>
+  </thead>
+  <tbody>
+  	<%@flights.each do |flight|%>
+    <tr>
+      
+      <td><%=flight.flight.name%></td>
+      <td><%=flight.departure_time.strftime("%I:%M%p") %> <br><%=flight.source.city%></td>
+      <td>
+      	<%=flight.arrival_time.strftime("%I:%M%p") %><br><%=flight.destination.city%>
+      </td>
+      <td></td>
+      <td></td>
+    </tr>
+    <%end%>
+  </tbody>
+</table>
