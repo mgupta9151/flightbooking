@@ -1,4 +1,8 @@
 ActiveAdmin.register FlightAssignment, as: "Flight Schedule" do
+	before_action :only => [:show,:edit,:update,:destroy] do		
+    @flight_schedule = FlightAssignment.friendly.find_by(slug: params[:id])
+  end
+
 	 menu priority: 6
 	 permit_params :flight_id,:arrival_time, :arrival_date,:departure_time,:departure_date,:base_fare,:travel_time,:source_id,:destination_id
 	index do

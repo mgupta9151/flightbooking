@@ -1,4 +1,8 @@
 ActiveAdmin.register Flight do
+	before_action :only => [:show,:edit,:update,:destroy] do
+    @flight = Flight.friendly.find_by(slug: params[:id])
+  end
+
 	 menu priority: 5
 	permit_params :name, :code,flight_seat_configurations_attributes:[:id,:flight_id,:flight_configuration_id]
 
@@ -27,7 +31,6 @@ ActiveAdmin.register Flight do
 	end
 
 	show do |flight|
-		binding.pry
 		attributes_table do
 			row :name
 			row :code
@@ -46,7 +49,7 @@ ActiveAdmin.register Flight do
     end
 
     def show
-    	@flight = Flight.includes(flight_seats:[:flight_seat_configuration=>[:flight_configuration=> [:seat_category]] ]).find_by(id: params[:id]) 	
+    	@flight = Flight.includes(flight_seats:[:flight_seat_configuration=>[:flight_configuration=> [:seat_category]] ]).friendly.find_by(slug: params[:id])
     end
 end
 

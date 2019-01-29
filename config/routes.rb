@@ -6,6 +6,8 @@ Rails.application.routes.draw do
 	ActiveAdmin.routes(self)
 	resources :flights do
 		member do
+			get :add_passenger
+			post :add_passenger_book_ticket
 			get :book_ticket
 		end
 	end

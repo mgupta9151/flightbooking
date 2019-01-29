@@ -8,8 +8,8 @@ class Flight < ApplicationRecord
 	extend FriendlyId
   	friendly_id :get_slug, use: :slugged
 
-	def get_slug
-	  	self.created_at.to_i.to_s + self.id.to_s
+	def get_slug		 
+	  	DateTime.current.to_i.to_s + Random.rand(10000).to_s
 	end
 
 	def create_seats

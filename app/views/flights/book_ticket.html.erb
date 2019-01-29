@@ -1,11 +1,18 @@
 <div id="seatmap">
+    <div class="row">
+      <div class="col-md-4"></div>
+      <div class="col-md-4"><h2><%=@seat_category.name%><h2></div>
+      <div class="col-md-4"></div>
+    </div>
     <div id="plane">
         <table class="rows">
-          <%for i in 1..@seat%>
-            <tr>
-                <td></td>
-            </tr>
-            <%end%>
+          <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+          </tr>
         </table>
         
         <div id="cabin">        
@@ -15,7 +22,7 @@
                 <% flight_seats.each do |flight_seat| %>
                 <%data = check_availability(@flight,flight_seat)%>
                 <%if data == "Available"%>            
-                  <td title="<%=data%>" class="seatAvailable" seat_type="<%=flight_seat.seat_type%>" seat_id="<%=flight_seat.id%>"><input type="checkbox" name=""></td>
+                  <td title="<%=data%>" class="seatAvailable" seat_type="<%=flight_seat.seat_type%>" seat_id="<%=flight_seat.id%>"><input type="checkbox" name="" class="available checkbox"></td>
                   <%else%>
                   <td title="<%=data%>" class="seatUnavailable" seat_type="<%=flight_seat.seat_type%>" seat_id="<%=flight_seat.id%>"></td>
                   <%end%>
@@ -49,7 +56,14 @@ return false;
 
 <style type="text/css">
 tr { display: block; float: left; }
-th, td { display: block; }
+th, td { display: block; position: relative;}
+
+input[type="radio"], input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    left: 0;
+    margin: 0;
+}
 
 table {
     width: 100%;
@@ -73,6 +87,10 @@ tbody {
   body {
     font-family: Arial; 
     font-size: 11px;
+}
+
+.booking_selection{
+  background-color: blue !important;
 }
 #seatmap { 
     position: relative; 
@@ -128,9 +146,15 @@ tbody {
 </style>
 
 <script type="text/javascript">
-  $('.noSeatStorage').html('S');
-$('.noSeatLavatory').html('L');
-$('.ExtraPay').html('E');
-$('.LargeSeat').html('XL');
+  var manish;
+  $(".checkbox").click(function(){
+    if($(this).is(":checked")){
+      console.log("checked")
+      $(this).parent().addClass('booking_selection')
+    }else{
+      console.log("un checked")
+      $(this).parent().removeClass('booking_selection')
+    }
+  })
 </script>
 

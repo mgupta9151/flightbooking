@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_28_132033) do
+ActiveRecord::Schema.define(version: 2019_01_29_123634) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -38,6 +38,14 @@ ActiveRecord::Schema.define(version: 2019_01_28_132033) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "bookings", force: :cascade do |t|
+    t.string "pnr"
+    t.integer "user_id"
+    t.integer "flight_assignment_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "flight_assignments", force: :cascade do |t|
     t.integer "flight_id"
     t.time "arrival_time"
@@ -51,6 +59,12 @@ ActiveRecord::Schema.define(version: 2019_01_28_132033) do
     t.string "source_id"
     t.string "destination_id"
     t.string "slug"
+    t.integer "total_first_seat", default: 0
+    t.integer "remaining_first_seat", default: 0
+    t.integer "total_economy_seat", default: 0
+    t.integer "remaining_economy_seat", default: 0
+    t.integer "total_business_seat", default: 0
+    t.integer "remaining_business_seat", default: 0
     t.index ["flight_id"], name: "index_flight_assignments_on_flight_id"
     t.index ["slug"], name: "index_flight_assignments_on_slug", unique: true
   end
@@ -105,6 +119,15 @@ ActiveRecord::Schema.define(version: 2019_01_28_132033) do
     t.index ["code"], name: "index_flights_on_code", unique: true
     t.index ["name"], name: "index_flights_on_name", unique: true
     t.index ["slug"], name: "index_flights_on_slug", unique: true
+  end
+
+  create_table "passengers", force: :cascade do |t|
+    t.string "name"
+    t.string "id_proof"
+    t.integer "age"
+    t.string "booking_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "seat_categories", force: :cascade do |t|

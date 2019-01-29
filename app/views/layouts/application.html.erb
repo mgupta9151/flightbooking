@@ -9,7 +9,8 @@
     <title>Airportsystem</title>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-    <%= csrf_meta_tags %>  
+    <%= csrf_meta_tags %> 
+ 
 </head>
 
   <body >
@@ -23,10 +24,16 @@
         </button>
         <a class="navbar-brand" href="#">Airportsystem</a>
         <div class="navbar-collapse collapse navbar-responsive-collapse">
-          <ul class="nav navbar-nav">
-            <li><%= link_to "Link1", "/path1"  %></li>
-            <li><%= link_to "Link2", "/path2"  %></li>
-            <li><%= link_to "Link3", "/path3"  %></li>
+          
+           <ul class="nav navbar-nav navbar-right">
+            <%unless user_signed_in?%>
+            <li><%= link_to "Login",new_user_session_path  %></li>
+            <li><%= link_to "Registration", new_user_registration_path%></li>
+            <%else%>          
+            <li><%= link_to "My Booking", "/path1"  %></li>
+            <li><%= link_to "Logout",destroy_user_session_path , method: :delete%></li>
+          
+          <%end%>
           </ul>
         </div>
       </div>

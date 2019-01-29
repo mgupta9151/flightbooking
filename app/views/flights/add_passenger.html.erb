@@ -1,0 +1,26 @@
+<%= bootstrap_flash %>
+<%= nested_form_for @booking ,url: add_passenger_book_ticket_flight_url(@flight) do |f| %>
+<input type="hidden" name="seat_type" value= <%=params[:seat_type]%> >
+	<%= f.fields_for :passengers do |passenger_form| %>
+	<div class="row">
+		<div class="col-md-3">
+			<%= passenger_form.text_field :name ,class: "form-control" ,placeholder: "Enter passenger Name"%>
+		</div>
+		<div class="col-md-3">
+			<%= passenger_form.text_field :id_proof ,class: "form-control" ,placeholder: "Enter passenger ID Proof"%>
+		</div>
+		<div class="col-md-3">
+			<%= passenger_form.text_field :age ,class: "form-control" ,placeholder: "Enter passenger age"%>
+		</div>
+		<div class="col-md-3">
+			<%= passenger_form.link_to_remove 'Remove me' %>
+		</div>
+	</div>
+	<hr>		
+	<% end %>
+
+	<%= f.link_to_add :passengers do %>
+      <span>Add More</span>
+    <% end %>
+    <%= f.submit "Add passenger and book ticket",class: "btn btn-primary" %>
+<%end%>

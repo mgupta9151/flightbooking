@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  pnr: MyString
+  user_id: 1
+  flight_assignment_id: 1
+
+two:
+  pnr: MyString
+  user_id: 1
+  flight_assignment_id: 1
