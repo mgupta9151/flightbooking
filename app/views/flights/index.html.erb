@@ -5,10 +5,12 @@
 <table class="table">
   <thead>
     <tr>
+      <th scope="col">Flight Name</th>
       <th scope="col">Departure</th>
       <th scope="col">Arrival</th>
       <th scope="col">Duration</th>
       <th scope="col">Price</th>
+      <th scope="col"></th>
     </tr>
   </thead>
   <tbody>
@@ -22,6 +24,7 @@
       </td>
       <td></td>
       <td></td>
+      <td><%=link_to "Book Ticket",book_ticket_flight_path(flight,seat_type: @seat_type)%></td>
     </tr>
     <%end%>
   </tbody>

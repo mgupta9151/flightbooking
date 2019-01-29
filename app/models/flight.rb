@@ -1,9 +1,16 @@
 class Flight < ApplicationRecord
 	has_many :flight_seat_configurations, dependent: :destroy
 	has_many :flight_seats, dependent: :destroy
-	has_many :flight_assitments, dependent: :destroy
+	has_many :flight_assignments, dependent: :destroy
+	has_many :flight_configuration , through: :flight_seat_configurations
 	accepts_nested_attributes_for :flight_seat_configurations
 	after_create :create_seats
+	extend FriendlyId
+  	friendly_id :get_slug, use: :slugged
+
+	def get_slug
+	  	self.created_at.to_i.to_s + self.id.to_s
+	end
 
 	def create_seats
 		first = []

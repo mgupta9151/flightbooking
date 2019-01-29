@@ -4,6 +4,9 @@ Rails.application.routes.draw do
 	devise_for :users
 	devise_for :admin_users, ActiveAdmin::Devise.config
 	ActiveAdmin.routes(self)
-	resources :flights
-	match "flights/index" => "flights#index", via: [:get, :post]
+	resources :flights do
+		member do
+			get :book_ticket
+		end
+	end
 end

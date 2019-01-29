@@ -70,3 +70,4 @@ gem "twitter-bootstrap-rails"
 gem "select2-rails"
 gem 'bootstrap-datepicker-rails'
 gem 'jquery-rails'
+gem 'friendly_id'

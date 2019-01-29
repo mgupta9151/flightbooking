@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_27_090339) do
+ActiveRecord::Schema.define(version: 2019_01_28_132033) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -50,7 +50,9 @@ ActiveRecord::Schema.define(version: 2019_01_27_090339) do
     t.datetime "updated_at", null: false
     t.string "source_id"
     t.string "destination_id"
+    t.string "slug"
     t.index ["flight_id"], name: "index_flight_assignments_on_flight_id"
+    t.index ["slug"], name: "index_flight_assignments_on_slug", unique: true
   end
 
   create_table "flight_configurations", force: :cascade do |t|
@@ -99,14 +101,18 @@ ActiveRecord::Schema.define(version: 2019_01_27_090339) do
     t.string "code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "slug"
     t.index ["code"], name: "index_flights_on_code", unique: true
     t.index ["name"], name: "index_flights_on_name", unique: true
+    t.index ["slug"], name: "index_flights_on_slug", unique: true
   end
 
   create_table "seat_categories", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "slug"
+    t.index ["slug"], name: "index_seat_categories_on_slug", unique: true
   end
 
   create_table "ticket_bookings", force: :cascade do |t|

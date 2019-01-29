@@ -32,7 +32,7 @@
 					<label>Seat Type</label>
 					<select class="form-control" name="seat_type" id="seat_type">
 						<% @seat_types.each do |seat| %>
-							<option value="<%=seat.id%>"><%=seat.name%></option>
+							<option value="<%=seat.slug%>"><%=seat.name%></option>
 						<%end%>						
 					</select>
 				</div>
@@ -46,7 +46,7 @@
 			</div>
 			<div class="row">
 				<div class="col-md-12 form-group">
-					<button type="submit" name="Search" class="btn btn-primary"></button>
+					<button type="submit" name="Search" class="btn btn-primary">Search Flight</button>
 				</div>
 			</div>	
 	</form>
