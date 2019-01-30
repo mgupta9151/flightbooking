@@ -21,10 +21,14 @@
               <tr>
                 <% flight_seats.each do |flight_seat| %>
                 <%data = check_availability(@flight,flight_seat)%>
-                <%if data == "Available"%>            
+                <%if data == "Available"%>
                   <td title="<%=data%>" class="seatAvailable" seat_type="<%=flight_seat.seat_type%>" seat_id="<%=flight_seat.id%>"><input type="checkbox" name="" class="available checkbox"></td>
                   <%else%>
+                  <%if @seat_id.to_i == flight_seat.id%>
+                  <td title="Your Seat" class="your_seat" seat_type="<%=flight_seat.seat_type%>" seat_id="<%=flight_seat.id%>"></td>
+                  <%else%>
                   <td title="<%=data%>" class="seatUnavailable" seat_type="<%=flight_seat.seat_type%>" seat_id="<%=flight_seat.id%>"></td>
+                  <%end%>                  
                   <%end%>
                 <%end%>              
               </tr>
@@ -34,6 +38,44 @@
         </div>
         <div style="clear: both;"></div>
     </div>
+
+  <div class="row">
+    <div class="col-md-4 form-group"></div>
+    <div class="col-md-4 form-group"><h2>Change Your seat<h2></div>
+    <div class="col-md-4 form-group">
+      <label></label>
+      <input type="hidden" name="" id="changed_seat_number">
+      <button class="btn btn-primary update_seat_btn">dsasas</button>
+    </div>
+  </div>
+
+<div id="card-modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">        
+        <h4 class="modal-title">Account Details</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-4 form-group">
+            <label>Card Number</label> 
+            <input type="text" name="" class="form-control card_number">           
+          </div>
+          <div class="col-md-4 form-group">
+            <label>Card Holder Name</label>  
+            <input type="text" name="" class="form-control card_holder_name">           
+          </div>
+          <div class="col-md-4 form-group">
+            <label>Amount to Pay</label>    
+            <input type="text" name="" class="form-control" disabled="">         
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pay_and_book">Pay & Book</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script type="text/javascript">
@@ -65,6 +107,9 @@ input[type="radio"], input[type="checkbox"] {
     margin: 0;
 }
 
+.your_seat {
+  background-color: #00ffff;
+}
 table {
     width: 100%;
     display:block;
@@ -146,15 +191,39 @@ tbody {
 </style>
 
 <script type="text/javascript">
-  var manish;
   $(".checkbox").click(function(){
     if($(this).is(":checked")){
-      console.log("checked")
+      seat = $(this).parent().attr('seat_id')
+      $("#changed_seat_number").val(seat)
+      $(".booking_selection").removeClass('booking_selection')
       $(this).parent().addClass('booking_selection')
     }else{
       console.log("un checked")
       $(this).parent().removeClass('booking_selection')
     }
+  })
+
+  $(".update_seat_btn").click(function(){
+    changable = $("#changed_seat_number").val()
+    if (changable != "") {
+      $("#card-modal").modal("show")
+    }
+    else{
+      alert("please change your seat to update")
+    }
+  })
+  $(".pay_and_book").click(function(){
+   card_number =  $(".card_number").val()
+   card_holder_name =  $(".card_holder_name").val()
+   if(card_number==""){
+    alert("please enter your card number")
+   }
+   if(card_holder_name!="" && card_number!=""){
+    alert("sdfsdf")
+   }
+
+
+
   })
 </script>
 

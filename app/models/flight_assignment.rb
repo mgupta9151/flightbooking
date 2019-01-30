@@ -9,10 +9,26 @@ class FlightAssignment < ApplicationRecord
   has_many :bookings, dependent: :destroy
   has_many :ticket_bookings, dependent: :destroy
 
+
   before_create :set_duration
   def get_slug		 
 	  DateTime.current.to_i.to_s + Random.rand(10000).to_s
 	end
+
+  def get_available_seats(category)
+    booked_seats = FlightSeat.where('id IN (?)', self.seat_booked_ids)
+    total = self.flight.flight_seats.joins(:flight_configuration).where('flight_configurations.seat_category_id=?',category)
+    available = total - booked_seats
+    return available
+  end
+
+  def get_total_seat_by_category(category)
+    self.flight.flight_seats.joins(:flight_configuration).where('flight_configurations.seat_category_id=?',category)
+  end
+
+  def get_price_and_available_seats(category)
+    price = FlightConfiguration.where(seat_category_id: category).first.seat_base_price
+  end
 
   def set_duration
     day_in_minutes = TimeDifference.between(self.arrival_date, self.departure_date).in_minutes

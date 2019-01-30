@@ -1,0 +1,38 @@
+<div class="row">
+	<table class="table">
+  <thead>
+    <tr>
+      <td scope="col">Ticket PNR</td>
+      <td scope="col">Seat Category</td>
+      <th scope="col">Booking Date</th>
+      <th scope="col">Arival Date</th>
+      <th scope="col">Arival Time</th>
+      <th scope="col">Departure Date</th>
+      <th scope="col">Departure Time</th>
+      <th scope="col">Travel Time</th>
+      <th scope="col">Total Price</th>
+      <td scope="col">Total Seats</td>
+      <th scope="col">Check Details</th>
+    </tr>
+  </thead>
+  <tbody>
+  	<%@bookings.each do |booking|%>
+    <tr>
+
+      <td scope="col"><%=booking.pnr%></td>
+      <td scope="col"><%=booking.seat_category.try(:name)%></td>
+      <td scope="col"><%=booking.created_at.strftime("%d/%m/%Y")%></td>
+      <td scope="col"><%=booking.flight_assignment.arrival_date.strftime("%d/%m/%Y")%></td>
+      <td scope="col"><%=booking.flight_assignment.arrival_time.strftime("%I:%M %p") %></td>
+      <td scope="col"><%=booking.flight_assignment.departure_date.strftime("%d/%m/%Y")%></td>
+      <td scope="col"><%=booking.flight_assignment.departure_time.strftime("%I:%M %p")%></td>
+      <td scope="col"><%=get_duration(booking.flight_assignment.travel_time.to_i)%></td>
+      <td scope="col"><%=booking.net_payble%></td>
+      <td scope="col"><%=booking.passengers.count%></td>
+      <td scope="col"><%=link_to "Details",booking_path(booking.id)%></td>
+      <!-- <td scope="col"><%#=link_to "Book Ticket",book_ticket_flight_path(flight,seat_type: @seat_type)%></td> -->
+    </tr>
+    <%end%>    
+  </tbody>
+</table>
+</div>

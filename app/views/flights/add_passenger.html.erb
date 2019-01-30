@@ -1,26 +1,63 @@
 <%= bootstrap_flash %>
-<%= nested_form_for @booking ,url: add_passenger_book_ticket_flight_url(@flight) do |f| %>
-<input type="hidden" name="seat_type" value= <%=params[:seat_type]%> >
-	<%= f.fields_for :passengers do |passenger_form| %>
-	<div class="row">
-		<div class="col-md-3">
-			<%= passenger_form.text_field :name ,class: "form-control" ,placeholder: "Enter passenger Name"%>
-		</div>
-		<div class="col-md-3">
-			<%= passenger_form.text_field :id_proof ,class: "form-control" ,placeholder: "Enter passenger ID Proof"%>
-		</div>
-		<div class="col-md-3">
-			<%= passenger_form.text_field :age ,class: "form-control" ,placeholder: "Enter passenger age"%>
-		</div>
-		<div class="col-md-3">
-			<%= passenger_form.link_to_remove 'Remove me' %>
-		</div>
+<div class="row">
+	<div class="col-md-4 form-group"></div>
+	<div class="col-md-4 form-group">
+		Per Seat Price: <%=price = @flight.get_price_and_available_seats(@seat_category.id)%>
 	</div>
-	<hr>		
-	<% end %>
+	<div class="col-md-4 form-group"></div>
+</div>
+<div class="row">
+	<%= nested_form_for @booking ,url: add_passenger_book_ticket_flight_url(@flight) do |f| %>
 
-	<%= f.link_to_add :passengers do %>
-      <span>Add More</span>
-    <% end %>
-    <%= f.submit "Add passenger and book ticket",class: "btn btn-primary" %>
-<%end%>
+		<div class="row">
+			<div class="col-md-3 form-group">
+				<label>Card Number</label>
+				<input type="text" name="card_number" class= "form-control">
+			</div>
+			<div class="col-md-3">
+				<label>Card Holder Name</label>
+				<input type="text" name="card_holder_name" class= "form-control">
+			</div>
+
+			<div class="col-md-3">
+				<label>Your Total Amount Pay</label>
+				<input type="text" name="total_amount" class= "form-control" id="total_amount" disabled="" data-per-price="<%=price%>" value="<%=price%>">
+			</div>
+			
+		</div>
+		<hr>
+
+	<input type="hidden" name="seat_type" value= <%=params[:seat_type]%> >
+		<%= f.fields_for :passengers do |passenger_form| %>
+		<div class="row">
+			<div class="col-md-3">
+				<%= passenger_form.text_field :name ,class: "form-control" ,placeholder: "Enter passenger Name"%>
+			</div>
+			<div class="col-md-3">
+				<%= passenger_form.text_field :id_proof ,class: "form-control" ,placeholder: "Enter passenger ID Proof"%>
+			</div>
+			<div class="col-md-3">
+				<%= passenger_form.text_field :age ,class: "form-control" ,placeholder: "Enter passenger age"%>
+			</div>
+			<div class="col-md-3">
+				<%= passenger_form.link_to_remove 'Remove me' %>
+			</div>
+		</div>
+		<hr>		
+		<% end %>
+
+		<%= f.link_to_add :passengers do %>
+	      <span>Add More</span>
+	    <% end %>
+	    <%= f.submit "Add passenger and book ticket",class: "btn btn-primary" %>
+	<%end%>
+</div>
+
+<script type="text/javascript">
+	$(".add_nested_fields").click(function(){
+		per_price = $("#total_amount").attr('data-per-price')
+		amount = $("#total_amount").val()
+		total_amount = parseFloat(per_price) + parseFloat(amount)
+		$("#total_amount").val(total_amount)
+	})
+</script>

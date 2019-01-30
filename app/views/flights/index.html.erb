@@ -23,9 +23,9 @@
       	<%=flight.arrival_time.strftime("%I:%M%p") %><br><%=flight.destination.city%>
       </td>
       <td><%= get_duration(flight.travel_time.to_i)%></td>
-      <td><%= get_price(@seat_category)%></td>
+      <td><%= flight.get_price_and_available_seats(@seat_category.id)%></td>
        <td><%=link_to "Book Now",add_passenger_flight_path(flight,seat_type: @seat_type)%></td>
-      <!-- <td><%#=link_to "Book Ticket",book_ticket_flight_path(flight,seat_type: @seat_type)%></td> -->
+    
     </tr>
     <%end%>
   </tbody>

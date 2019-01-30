@@ -10,15 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_29_123634) do
+ActiveRecord::Schema.define(version: 2019_01_30_100513) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
     t.string "resource_type"
-    t.integer "resource_id"
+    t.bigint "resource_id"
     t.string "author_type"
-    t.integer "author_id"
+    t.bigint "author_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
@@ -44,10 +47,12 @@ ActiveRecord::Schema.define(version: 2019_01_29_123634) do
     t.integer "flight_assignment_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "net_payble", default: 0.0
+    t.integer "seat_category_id"
   end
 
   create_table "flight_assignments", force: :cascade do |t|
-    t.integer "flight_id"
+    t.bigint "flight_id"
     t.time "arrival_time"
     t.date "arrival_date"
     t.time "departure_time"
@@ -65,12 +70,13 @@ ActiveRecord::Schema.define(version: 2019_01_29_123634) do
     t.integer "remaining_economy_seat", default: 0
     t.integer "total_business_seat", default: 0
     t.integer "remaining_business_seat", default: 0
+    t.text "seat_booked_ids", default: [], array: true
     t.index ["flight_id"], name: "index_flight_assignments_on_flight_id"
     t.index ["slug"], name: "index_flight_assignments_on_slug", unique: true
   end
 
   create_table "flight_configurations", force: :cascade do |t|
-    t.integer "seat_category_id"
+    t.bigint "seat_category_id"
     t.integer "number_of_row"
     t.integer "seat_in_row"
     t.float "seat_base_price"
@@ -80,8 +86,8 @@ ActiveRecord::Schema.define(version: 2019_01_29_123634) do
   end
 
   create_table "flight_seat_configurations", force: :cascade do |t|
-    t.integer "flight_id"
-    t.integer "flight_configuration_id"
+    t.bigint "flight_id"
+    t.bigint "flight_configuration_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["flight_configuration_id"], name: "index_flight_seat_configurations_on_flight_configuration_id"
@@ -89,8 +95,8 @@ ActiveRecord::Schema.define(version: 2019_01_29_123634) do
   end
 
   create_table "flight_seats", force: :cascade do |t|
-    t.integer "flight_seat_configuration_id"
-    t.integer "flight_id"
+    t.bigint "flight_seat_configuration_id"
+    t.bigint "flight_id"
     t.string "pnr"
     t.float "seat_base_price"
     t.integer "row_number"
@@ -139,12 +145,13 @@ ActiveRecord::Schema.define(version: 2019_01_29_123634) do
   end
 
   create_table "ticket_bookings", force: :cascade do |t|
-    t.integer "flight_assignment_id"
-    t.integer "flight_seat_id"
-    t.integer "user_id"
+    t.bigint "flight_assignment_id"
+    t.bigint "flight_seat_id"
+    t.bigint "user_id"
     t.float "payble_price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "passenger_id"
     t.index ["flight_assignment_id"], name: "index_ticket_bookings_on_flight_assignment_id"
     t.index ["flight_seat_id"], name: "index_ticket_bookings_on_flight_seat_id"
     t.index ["user_id"], name: "index_ticket_bookings_on_user_id"
@@ -172,4 +179,13 @@ ActiveRecord::Schema.define(version: 2019_01_29_123634) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "flight_assignments", "flights"
+  add_foreign_key "flight_configurations", "seat_categories"
+  add_foreign_key "flight_seat_configurations", "flight_configurations"
+  add_foreign_key "flight_seat_configurations", "flights"
+  add_foreign_key "flight_seats", "flight_seat_configurations"
+  add_foreign_key "flight_seats", "flights"
+  add_foreign_key "ticket_bookings", "flight_assignments"
+  add_foreign_key "ticket_bookings", "flight_seats"
+  add_foreign_key "ticket_bookings", "users"
 end
