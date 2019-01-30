@@ -4,6 +4,7 @@ class Flight < ApplicationRecord
 	has_many :flight_assignments, dependent: :destroy
 	has_many :flight_seat_configurations, dependent: :destroy
 	has_many :flight_configuration , through: :flight_seat_configurations
+	validates :name,:code, uniqueness: true
 	accepts_nested_attributes_for :flight_seat_configurations
 	after_create :create_seats
 	extend FriendlyId

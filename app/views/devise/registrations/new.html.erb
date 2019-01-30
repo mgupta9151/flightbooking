@@ -20,9 +20,17 @@
     <%= f.number_field :age, class: "form-control"  %>
   </div>
 
-    <div class="form-group">
+  <div class="form-group">
     <label for="contact_number">Contact Number:</label>
     <%= f.text_field :contact_number, class: "form-control"  %>
+  </div>
+
+   <div class="form-group">
+    <label for="gender">Gender:</label>
+    <select class="form-control" name="user[gender]">
+      <option value="Male">Male</option>
+      <option value="Male">Female</option>
+    </select>
   </div>
 
 
