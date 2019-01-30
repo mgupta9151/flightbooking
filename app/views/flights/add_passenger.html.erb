@@ -31,13 +31,13 @@
 		<%= f.fields_for :passengers do |passenger_form| %>
 		<div class="row">
 			<div class="col-md-3">
-				<%= passenger_form.text_field :name ,class: "form-control" ,placeholder: "Enter passenger Name"%>
+				<%= passenger_form.text_field :name ,class: "form-control validation" ,placeholder: "Enter passenger Name"%>
 			</div>
 			<div class="col-md-3">
-				<%= passenger_form.text_field :id_proof ,class: "form-control" ,placeholder: "Enter passenger ID Proof"%>
+				<%= passenger_form.text_field :id_proof ,class: "form-control validation" ,placeholder: "Enter passenger ID Proof"%>
 			</div>
 			<div class="col-md-3">
-				<%= passenger_form.text_field :age ,class: "form-control" ,placeholder: "Enter passenger age"%>
+				<%= passenger_form.text_field :age ,class: "form-control validation" ,placeholder: "Enter passenger age"%>
 			</div>
 			<div class="col-md-3">
 				<%= passenger_form.link_to_remove 'Remove me' %>
@@ -60,4 +60,24 @@
 		total_amount = parseFloat(per_price) + parseFloat(amount)
 		$("#total_amount").val(total_amount)
 	})
+
+	$(document).ready(function () {
+		jQuery.validator.addClassRules({
+		    validation : { required : true }
+		});
+
+    $('.new_booking').validate({
+        rules: {
+            card_number: {
+                required: true,
+            },
+            card_holder_name: {
+                required: true,
+                minlength: 5
+            }
+        }
+    });
+
+});
+
 </script>

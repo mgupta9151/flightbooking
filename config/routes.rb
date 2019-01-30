@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 			get :add_passenger
 			post :add_passenger_book_ticket
 			get :see_map_and_update_seat
+			get :update_seat
 		end
 	end
 

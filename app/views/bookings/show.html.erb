@@ -89,7 +89,7 @@
       <td scope="col"><%=passenger.ticket_booking.try(:flight_seat).try(:pnr)%></td>
       <td scope="col"><%=passenger.ticket_booking.try(:flight_seat).try(:seat_number)%></td>      
       <td scope="col"><%=passenger.ticket_booking.try(:flight_seat).try(:seat_type)%></td>
-      <td><%=link_to "Book Ticket",see_map_and_update_seat_flight_path(passenger.booking.flight_assignment,seat_type: passenger.booking.seat_category , st:passenger.ticket_booking.flight_seat )%></td>    
+      <td><%=link_to "Book Ticket",see_map_and_update_seat_flight_path(passenger.booking.flight_assignment,seat_type: passenger.booking.seat_category , st:passenger.ticket_booking.flight_seat,psgr: passenger )%></td>    
       </tr>
     <%end%>
   </tbody>

@@ -1,6 +1,6 @@
 class FlightsController < ApplicationController
-	before_action :authenticate_user!,only: [:see_map_and_update_seat,:add_passenger_book_ticke,:add_passenger]
-	before_action :find_flight_schedule,only: [:see_map_and_update_seat,:add_passenger,:add_passenger_book_ticket]
+	before_action :authenticate_user!,only: [:update_seat,:see_map_and_update_seat,:add_passenger_book_ticke,:add_passenger]
+	before_action :find_flight_schedule,only: [:update_seat,:see_map_and_update_seat,:add_passenger,:add_passenger_book_ticket]
 	def index		
 		from_location = params[:from_location]
 		to_location = params[:to_location]
@@ -11,6 +11,9 @@ class FlightsController < ApplicationController
 	end
 	def see_map_and_update_seat
 		seat_type = params[:seat_type]
+		@passenger = Passenger.find_by(id: params[:psgr])
+		@amount = @passenger.ticket_booking.payble_price
+		@payble_amount = (@amount * 10)/100
 		@seat_category = SeatCategory.friendly.find(params[:seat_type])
 		@seat_id = params[:st]
 		if @seat_category.present? && @flight.present?
@@ -29,8 +32,23 @@ class FlightsController < ApplicationController
 		1.times {@booking.passengers.build} 
 	end
 
-	def book_seat
-		
+	def update_seat
+		@passenger = Passenger.find_by(id: params[:passenger])
+		if @flight.seat_booked_ids.include?(params[:changable]).present?
+			flash[:error]= "Seat was booked by another one, please tryanother one"
+			redirect_to root_path
+		else
+			@flight.seat_booked_ids -= [params[:prev_seat]]
+			@flight.seat_booked_ids << params[:changable]
+			@passenger.booking.net_payble += params[:pay_amount].to_f
+			@passenger.ticket_booking.payble_price += params[:pay_amount].to_f
+			@passenger.ticket_booking.flight_seat_id=params[:changable]
+			@flight.save
+			@passenger.booking.save
+			@passenger.ticket_booking.save
+			flash[:success]= "Seat has been updated successfully"
+			redirect_to bookings_path
+		end
 	end
 	def add_passenger_book_ticket
 		available_seats = 0
@@ -84,7 +102,7 @@ class FlightsController < ApplicationController
 				end
 				current_user.bookings.last.update(net_payble: total)
 				@flight.save
-				flash[:success] = "Booking successfully confirmed"
+				flash[:success] = "Booking successfully confirmed your pnr no is= #{current_user.bookings.last.pnr}"
 				redirect_to root_path
 			end
 		else

@@ -40,13 +40,11 @@
     </div>
 
   <div class="row">
-    <div class="col-md-4 form-group"></div>
-    <div class="col-md-4 form-group"><h2>Change Your seat<h2></div>
     <div class="col-md-4 form-group">
-      <label></label>
       <input type="hidden" name="" id="changed_seat_number">
-      <button class="btn btn-primary update_seat_btn">dsasas</button>
     </div>
+    <div class="col-md-8 form-group"><h2><button class="btn btn-primary update_seat_btn">Change your seat</button><h2></div>
+
   </div>
 
 <div id="card-modal" class="modal fade" role="dialog">
@@ -57,21 +55,32 @@
       </div>
       <div class="modal-body">
         <div class="row">
-          <div class="col-md-4 form-group">
+          <div class="col-md-3 form-group">
             <label>Card Number</label> 
             <input type="text" name="" class="form-control card_number">           
           </div>
-          <div class="col-md-4 form-group">
+          <div class="col-md-3 form-group">
             <label>Card Holder Name</label>  
             <input type="text" name="" class="form-control card_holder_name">           
           </div>
-          <div class="col-md-4 form-group">
-            <label>Amount to Pay</label>    
-            <input type="text" name="" class="form-control" disabled="">         
+          <div class="col-md-3 form-group">
+            <label>Previous Paid amount</label>    
+            <input type="text" name="" class="form-control" disabled="" value="<%=@amount%>">         
           </div>
+          <form action="<%=update_seat_flight_path(@flight)%>" method="get" class="update_form">
+          <div class="col-md-3 form-group">
+            <label>Extra Amount to Pay</label> 
+            <input type="hidden" name="prev_seat" class="prev_seat"> 
+            <input type="hidden" name="changable" class="changable"> 
+            <input type="hidden" name="pay_amount" value="<%=@payble_amount%>"> 
+            <input type="hidden" name="passenger" value="<%=@passenger.id%>">   
+            <input type="text" name="" class="form-control" disabled="" value="<%=@payble_amount%>">
+          </div>
+          <form>
         </div>
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancle</button>
         <button type="button" class="btn btn-default pay_and_book">Pay & Book</button>
       </div>
     </div>
@@ -209,7 +218,7 @@ tbody {
       $("#card-modal").modal("show")
     }
     else{
-      alert("please change your seat to update")
+      alert("please select your seat to update")
     }
   })
   $(".pay_and_book").click(function(){
@@ -218,11 +227,17 @@ tbody {
    if(card_number==""){
     alert("please enter your card number")
    }
-   if(card_holder_name!="" && card_number!=""){
-    alert("sdfsdf")
+   if(card_holder_name==""){
+    alert("please enter your card number")
    }
+   if(card_holder_name!="" && card_number!=""){
+    prev_seat = $(".your_seat").attr('seat_id')
+    changable = $("#changed_seat_number").val()
+    $(".prev_seat").val(prev_seat)
+     $(".changable").val(changable) 
+     $(".update_form").submit()
 
-
+   }
 
   })
 </script>

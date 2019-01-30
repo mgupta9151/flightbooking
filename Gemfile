@@ -73,3 +73,4 @@ gem 'jquery-rails'
 gem 'friendly_id'
 gem "nested_form"
 gem 'pg'
+gem 'jquery-validation-rails'

@@ -29,11 +29,29 @@ ActiveAdmin.register FlightAssignment, as: "Flight Schedule" do
 			f.input :arrival_date,as: :datepicker
 			f.input :departure_date,as: :datepicker
 			f.input :arrival_time	,as: :time_picker		
-			f.input :departure_time	,as: :time_picker		
-			f.input :base_fare
-			f.input :travel_time
+			f.input :departure_time	,as: :time_picker	
+			
 		end
 		f.actions
+	end
+
+	show do |flight_sch|
+		attributes_table do
+			row :flight_id
+			row :source_id
+			row :destination_id
+			row :arrival_date
+			row :arrival_time
+			row :departure_date
+			row :departure_time
+			row :travel_time			
+		end
+		tabs do
+			tab 'Flight Seat Details' do
+					render partial: 'admin/flight/seat_details', locals: {:seats => flight_sch.flight_seats,flight: flight_sch}
+			end
+
+		end
 	end
 
 end

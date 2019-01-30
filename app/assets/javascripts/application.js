@@ -17,6 +17,7 @@
 //= require turbolinks
 //= require bootstrap-datepicker
 //= require jquery_nested_form
+//= require jquery.validate
 //= require_tree .
 //= stub active_admin
 
