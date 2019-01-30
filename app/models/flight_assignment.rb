@@ -9,7 +9,7 @@ class FlightAssignment < ApplicationRecord
   has_many :bookings, dependent: :destroy
   has_many :ticket_bookings, dependent: :destroy
 
-  before_save :set_duration
+  before_create :set_duration
   def get_slug		 
 	  DateTime.current.to_i.to_s + Random.rand(10000).to_s
 	end

@@ -1,5 +1,5 @@
 class FlightsController < ApplicationController
-	before_action :authenticate_user!,only: [:book_ticket]
+	before_action :authenticate_user!,only: [:book_ticket,:add_passenger_book_ticke,:add_passenger]
 	before_action :find_flight_schedule,only: [:book_ticket,:add_passenger,:add_passenger_book_ticket]
 	def index		
 		from_location = params[:from_location]
@@ -33,7 +33,6 @@ class FlightsController < ApplicationController
 		
 	end
 	def add_passenger_book_ticket
-		binding.pry
 		available_seats = 0
 		seat_category = SeatCategory.friendly.find(params[:seat_type])
 		first = false
@@ -54,20 +53,20 @@ class FlightsController < ApplicationController
 				
 		total_passengers = params[:booking][:passengers_attributes].keys.count	
 		if total_passengers <= available_seats
-			
+			params[:booking][:user_id] = current_user.id
 			if @flight.bookings.create(params_booking)
-				if first
+				if first == true
 					@flight.remaining_first_seat -=total_passengers
 				end
-				if business
+				if business == true
 					@flight.remaining_business_seat -=total_passengers
 				end
-				if economy
+				if economy == true
 					@flight.remaining_economy_seat	-=total_passengers
 				end
-				binding.pry
 				@flight.save
-				redirect_to root_path,flash[:success] = "Booking successfully confirmed"
+				flash[:success] = "Booking successfully confirmed"
+				redirect_to root_path
 			end
 		else
 			flash[:error] = "Sorry No seat available for your requested passenger #{total_passengers}"

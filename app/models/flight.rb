@@ -1,7 +1,8 @@
 class Flight < ApplicationRecord
-	has_many :flight_seat_configurations, dependent: :destroy
+	
 	has_many :flight_seats, dependent: :destroy
 	has_many :flight_assignments, dependent: :destroy
+	has_many :flight_seat_configurations, dependent: :destroy
 	has_many :flight_configuration , through: :flight_seat_configurations
 	accepts_nested_attributes_for :flight_seat_configurations
 	after_create :create_seats
@@ -92,9 +93,9 @@ class Flight < ApplicationRecord
 					      break random_token unless FlightSeat.exists?(pnr: random_token)
 					    end
 					if j ==1 or j == economy_seat_in_row
-						self.flight_seats.create(flight_seat_configuration_id: economy_conf, seat_base_price: business_base_price,row_number: row_number ,seat_number: seat_number,seat_type: "WS" )
+						self.flight_seats.create(flight_seat_configuration_id: economy_conf, seat_base_price: business_base_price,row_number: row_number ,seat_number: seat_number,seat_type: "WS" ,pnr: random_token)
 					else
-						self.flight_seats.create(flight_seat_configuration_id: economy_conf, seat_base_price: business_base_price,row_number: row_number ,seat_number: seat_number ,seat_type: "AS")
+						self.flight_seats.create(flight_seat_configuration_id: economy_conf, seat_base_price: business_base_price,row_number: row_number ,seat_number: seat_number ,seat_type: "AS" ,pnr: random_token)
 					end
 					seat_number+=1
 				end
