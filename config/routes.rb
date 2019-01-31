@@ -11,6 +11,10 @@ Rails.application.routes.draw do
 			get :see_map_and_update_seat
 			get :update_seat
 		end
+		collection do
+			get :get_pnr_detail
+			get :ticket_list
+		end
 	end
 
 	resources :bookings , only:[:index,:show] do

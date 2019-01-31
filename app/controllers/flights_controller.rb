@@ -111,6 +111,15 @@ class FlightsController < ApplicationController
 		end
 	end
 
+	def get_pnr_detail
+	end
+	def ticket_list
+		if params[:pnr].present?
+			@booking = Booking.find_by(pnr: params[:pnr])
+		else
+		end
+	end
+
 	private
 	def find_flight_schedule
 		@flight = FlightAssignment.friendly_id.find_by(slug: params[:id])

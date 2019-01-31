@@ -1,0 +1,96 @@
+<div class="row">
+  <div class="col-md-4 form-group">
+    <label>Ticket PNR</label>
+    <input type="text" disabled="true" name="" class="form-control" value="<%=@booking.pnr%>">
+    
+  </div>
+  <div class="col-md-4 form-group">
+    <label>Seat Category</label>
+    <input type="text" disabled="true" name="" class="form-control" value="<%=@booking.seat_category.try(:name)%>">
+    
+  </div>
+  <div class="col-md-4 form-group">
+    <label>Booking Date</label>
+    <input type="text" disabled="true" name="" class="form-control" value="<%=@booking.created_at.strftime("%d/%m/%Y")%>">
+    
+  </div>  
+</div>
+
+<div class="row">
+  <div class="col-md-4 form-group">
+    <label>Arrival Date</label>
+    <input type="text" disabled="true" name="" class="form-control" value="<%=@booking.flight_assignment.arrival_date.strftime("%d/%m/%Y")%>">
+    
+  </div>
+  <div class="col-md-4 form-group">
+    <label>Arrival Time</label>
+    <input type="text" disabled="true" name="" class="form-control" value="<%=@booking.flight_assignment.arrival_time.strftime("%I:%M %p") %>">
+    
+  </div>
+  <div class="col-md-4 form-group">
+    <label>Travel Time</label>
+    <input type="text" disabled="true" name="" class="form-control" value="<%=get_duration(@booking.flight_assignment.travel_time.to_i)%>">
+   
+  </div>  
+</div>
+
+<div class="row">
+  <div class="col-md-4 form-group">
+     <label>Departure Date</label>
+    <input type="text" disabled="true" name="" class="form-control" value="<%=@booking.flight_assignment.departure_date.strftime("%d/%m/%Y")%>">
+    
+  </div>
+  <div class="col-md-4 form-group">
+    <label>Departure Time</label>
+    <input type="text" disabled="true" name="" class="form-control" value="<%=@booking.flight_assignment.departure_time.strftime("%I:%M %p")%>">
+    
+  </div>
+  <div class="col-md-4 form-group">
+    <label>Paid Amount</label>
+   <input type="text" disabled="true" name="" class="form-control" value="<%=@booking.net_payble%>">
+   
+  </div>  
+</div>
+
+<hr>
+
+<div class="row">
+  <div class="col-md-4 form-group">     
+    
+  </div>
+  <div class="col-md-4 form-group">
+    <label>Seat & passengers Details</label>    
+  </div>
+  <div class="col-md-4 form-group">   
+   
+  </div>  
+</div>
+
+<div class="row">
+	<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Age</th>
+      <th scope="col">Amount</th>
+      <th scope="col">Seat PNR</th>
+      <th scope="col">Seat Number</th>
+      <th scope="col">Seat Type</th>     
+    </tr>
+  </thead>
+
+  <tbody>
+    <%@booking.passengers.each do |passenger|%>
+    <tr>
+      <td scope="col"><%=passenger.name%></td>
+      <td scope="col"><%=passenger.age%></td>
+      <td scope="col"><%=passenger.ticket_booking.try(:payble_price)%></td>
+      <td scope="col"><%=passenger.ticket_booking.try(:flight_seat).try(:pnr)%></td>
+      <td scope="col"><%=passenger.ticket_booking.try(:flight_seat).try(:seat_number)%></td>      
+      <td scope="col"><%=passenger.ticket_booking.try(:flight_seat).try(:seat_type)%></td>
+      </tr>
+    <%end%>
+  </tbody>
+
+</table>
+</div>
