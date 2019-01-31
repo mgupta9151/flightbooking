@@ -114,9 +114,10 @@ class FlightsController < ApplicationController
 	def get_pnr_detail
 	end
 	def ticket_list
-		if params[:pnr].present?
-			@booking = Booking.find_by(pnr: params[:pnr])
-		else
+		@booking = Booking.find_by(pnr: params[:pnr])
+		unless params[:pnr].present? && @booking.present?			
+			flash[:error]="Sorry no booking found"
+			redirect_to root_path
 		end
 	end
 

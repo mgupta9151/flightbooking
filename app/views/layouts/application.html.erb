@@ -32,8 +32,7 @@
             <li><%= link_to "Registration", new_user_registration_path%></li>
             <%else%>          
             <li><%= link_to "My Booking", bookings_path  %></li>
-            <li><%= link_to "Logout",destroy_user_session_path , method: :delete%></li>
-          
+            <li><%= link_to "Logout",destroy_user_session_path , method: :delete%></li>          
           <%end%>
           </ul>
         </div>
